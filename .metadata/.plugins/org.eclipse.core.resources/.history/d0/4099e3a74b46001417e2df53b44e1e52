@@ -1,5 +1,0 @@
-package ru.spbstu.telematics.domrachev.lab02;
-
-public interface ILinkedList {
-
-}
