@@ -1,11 +1,16 @@
 package ru.spbstu.telematics.domrachev.lab02;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * Двусвязный список.
  */
-public class MyLinkedList<T> implements ILinkedList {
+public class MyLinkedList<T>
+		implements Iterable<T>, ILinkedList
+{
 	int size = 0;
-	private class INode<T>{
+	private class INode<T> implements Iterator<T>{
 		T item;
 		INode<T> prev;
 		INode<T> next;
@@ -15,6 +20,18 @@ public class MyLinkedList<T> implements ILinkedList {
             this.next = next;
             this.prev = prev;
         }
+
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public T next() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 	private INode<T> head;
 	private INode<T> tail;
@@ -33,12 +50,7 @@ public class MyLinkedList<T> implements ILinkedList {
 		head.next = t;
 		size++;
 		
-		INode<T> cur = head.next;
-		while(cur != tail){
-			System.out.print(cur.item);
-			cur = cur.next;
-		}
-		System.out.println();
+		printOut();
 	}
 
 	@Override
@@ -48,63 +60,59 @@ public class MyLinkedList<T> implements ILinkedList {
 		tail.prev = t;
 		size++;
 		
-		INode<T> cur = head.next;
-		while(cur != tail){
-			System.out.print(cur.item);
-			cur = cur.next;
-		}
-		System.out.println();
+		printOut();
 	}
 
 	@Override
 	public Object getFirst(){
 		T t = head.next.item;
-		INode<T> cur = head.next;
-		while(cur != tail){
-			System.out.print(cur.item);
-			cur = cur.next;
-		}
-		System.out.println();
+		printOut();
 		return t;
 	}
 
 	@Override
 	public Object getLast(){
 		T t = tail.prev.item;
-		INode<T> cur = head.next;
-		while(cur != tail){
-			System.out.print(cur.item);
-			cur = cur.next;
-		}
-		System.out.println();
+		printOut();
 		return t;
 	}
 
 	@Override
-	public Object removeFirst(){
+	public Object removeFirst()
+		throws NoSuchElementException
+	{
+		if(head.next == tail)
+			throw new NoSuchElementException();
 		T t = head.next.item;
 		head.next.next.prev = head;
 		head.next = head.next.next;
+		printOut();
+		return t;
+	}
+	
+	public void printOut(){
 		INode<T> cur = head.next;
 		while(cur != tail){
 			System.out.print(cur.item);
 			cur = cur.next;
 		}
 		System.out.println();
+	}
+
+	@Override
+	public Object removeLast()
+		throws NoSuchElementException{
+		if(tail.prev == head)
+			throw new NoSuchElementException();
+		T t = tail.prev.item;
+		tail.prev.prev.next = tail;
+		tail.prev = tail.prev.prev;
+		printOut();
 		return t;
 	}
 
 	@Override
-	public Object removeLast(){
-		T t = tail.prev.item;
-		tail.prev.prev.next = tail;
-		tail.prev = tail.prev.prev;
-		INode<T> cur = head.next;
-		while(cur != tail){
-			System.out.print(cur.item);
-			cur = cur.next;
-		}
-		System.out.println();
-		return t;
+	public Iterator<T> iterator() {
+		return null;
 	}
 }

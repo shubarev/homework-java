@@ -13,6 +13,12 @@ public class Main {
 		t.addLast(6);
 		t.addLast(7);
 		t.addLast(8);
+		
+		for (Object o: t){
+			System.out.print(o);
+		}
+		System.out.println();
+		
 		t.removeFirst();
 		t.removeFirst();
 		t.getFirst();
