@@ -7,10 +7,9 @@ import java.util.NoSuchElementException;
  * Двусвязный список.
  */
 public class MyLinkedList<T>
-		implements Iterable<T>, ILinkedList
+		implements ILinkedList, Iterable<T>
 {
-	int size = 0;
-	private class INode<T> implements Iterator<T>{
+	private class INode<T>{
 		T item;
 		INode<T> prev;
 		INode<T> next;
@@ -20,27 +19,17 @@ public class MyLinkedList<T>
             this.next = next;
             this.prev = prev;
         }
-
-		@Override
-		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public T next() {
-			// TODO Auto-generated method stub
-			return null;
-		}
 	}
 	private INode<T> head;
 	private INode<T> tail;
+	private INode<T> current;
 	
 	public MyLinkedList(){
 		head = new INode<T>(null, null, tail);
 		tail = new INode<T>(null, head, null);
 		head.next = tail;
 		tail.prev = head;
+		current = head;
 	}
 	
 	@Override
@@ -48,9 +37,6 @@ public class MyLinkedList<T>
 		INode<T> t = new INode<T>((T) o, head, head.next);
 		head.next.prev = t;
 		head.next = t;
-		size++;
-		
-		printOut();
 	}
 
 	@Override
@@ -58,22 +44,17 @@ public class MyLinkedList<T>
 		INode<T> t = new INode<T>((T) o, tail.prev, tail);
 		tail.prev.next = t;
 		tail.prev = t;
-		size++;
-		
-		printOut();
 	}
 
 	@Override
 	public Object getFirst(){
 		T t = head.next.item;
-		printOut();
 		return t;
 	}
 
 	@Override
 	public Object getLast(){
 		T t = tail.prev.item;
-		printOut();
 		return t;
 	}
 
@@ -86,17 +67,7 @@ public class MyLinkedList<T>
 		T t = head.next.item;
 		head.next.next.prev = head;
 		head.next = head.next.next;
-		printOut();
 		return t;
-	}
-	
-	public void printOut(){
-		INode<T> cur = head.next;
-		while(cur != tail){
-			System.out.print(cur.item);
-			cur = cur.next;
-		}
-		System.out.println();
 	}
 
 	@Override
@@ -107,12 +78,29 @@ public class MyLinkedList<T>
 		T t = tail.prev.item;
 		tail.prev.prev.next = tail;
 		tail.prev = tail.prev.prev;
-		printOut();
 		return t;
 	}
 
 	@Override
 	public Iterator<T> iterator() {
-		return null;
+		return new Iterator<T>(){
+
+			@Override
+			public boolean hasNext() {
+				boolean flag;
+				if (flag = (current.next == tail)){
+					current = head;
+				}
+				return !flag;
+			}
+
+			@Override
+			public T next() {
+				T t = current.next.item;
+				current = current.next;
+				return t;
+			}
+			
+		};
 	}
 }

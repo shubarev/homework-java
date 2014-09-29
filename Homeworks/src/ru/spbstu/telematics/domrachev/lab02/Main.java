@@ -14,19 +14,25 @@ public class Main {
 		t.addLast(7);
 		t.addLast(8);
 		
-		for (Object o: t){
+		for (Integer o: t){
 			System.out.print(o);
 		}
 		System.out.println();
 		
 		t.removeFirst();
 		t.removeFirst();
+		t.removeFirst();
+		t.removeFirst();
+		t.removeFirst();
 		t.getFirst();
 		t.getFirst();
-		t.removeLast();
-		t.removeLast();
 		t.getLast();
 		t.getLast();
+		
+		for (Integer o: t){
+			System.out.print(o + "!");
+		}
+		System.out.println();
 	}
 
 }
