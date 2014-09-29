@@ -1,0 +1,77 @@
+package ru.spbstu.telematics.domrachev.lab02;
+
+/**
+ * Двусвязный список.
+ */
+public class ILinkedList<T> {
+	int size = 0;
+	private class INode<T>{
+		T item;
+		INode<T> prev;
+		INode<T> next;
+		
+		INode(T item, INode<T> prev, INode<T> next) {
+            this.item = item;
+            this.next = next;
+            this.prev = prev;
+        }
+	}
+	private INode<T> head;
+	private INode<T> tail;
+	
+	public ILinkedList(){
+		
+	}
+	
+	/**
+	 * Добавить элемент в голову списка
+	 */
+	void addFirst(Object o){
+		
+	}
+
+	/**
+	 * Добавить элемент в хвост списка
+	 * 
+	 * @param o
+	 */
+	void addLast(Object o){
+		
+	}
+
+	/**
+	 * Взять первый элемент. Но не удалять из списка!
+	 * 
+	 * @return
+	 */
+	Object getFirst(){
+		return new Object();
+	}
+
+	/**
+	 * Взять последний элемент. Но не удалять!
+	 * 
+	 * @return
+	 */
+	Object getLast(){
+		return new Object();
+	}
+
+	/**
+	 * Вернуть первый элемент и удалить его из списка.
+	 * 
+	 * @return
+	 */
+	Object removeFirst(){
+		return new Object();
+	}
+
+	/**
+	 * Вернуть последний элемент и удалить его из списка.
+	 * 
+	 * @return
+	 */
+	Object removeLast(){
+		return new Object();
+	}
+}
