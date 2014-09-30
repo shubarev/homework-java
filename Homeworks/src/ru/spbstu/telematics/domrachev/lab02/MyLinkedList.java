@@ -47,13 +47,19 @@ public class MyLinkedList<T>
 	}
 
 	@Override
-	public Object getFirst(){
+	public Object getFirst()
+			throws NoSuchElementException{
+		if(head.next == tail)
+			throw new NoSuchElementException();
 		T t = head.next.item;
 		return t;
 	}
 
 	@Override
-	public Object getLast(){
+	public Object getLast()
+			throws NoSuchElementException{
+		if(tail.prev == head)
+			throw new NoSuchElementException();
 		T t = tail.prev.item;
 		return t;
 	}
@@ -99,6 +105,14 @@ public class MyLinkedList<T>
 				T t = current.next.item;
 				current = current.next;
 				return t;
+			}
+
+			@Override
+			public void remove() {
+				if (current != head && current != tail){
+					current.prev.next = current.next;
+					current.next.prev = current.prev;
+				}
 			}
 			
 		};
