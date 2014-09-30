@@ -16,21 +16,25 @@ public class Main {
 		
 		for (Integer o: t){
 			System.out.print(o);
+			for (Integer k: t){
+				System.out.print("+" + k);
+			}
+			System.out.println();
 		}
 		System.out.println();
 		
-		t.removeFirst();
-		t.removeFirst();
-		t.removeFirst();
-		t.removeFirst();
-		t.removeFirst();
+		System.out.println("- " + t.removeFirst());
+		System.out.println("- " + t.removeFirst());
+		System.out.println("- " + t.removeFirst());
+		System.out.println("- " + t.removeLast());
+		System.out.println("- " + t.removeLast());
 		t.getFirst();
 		t.getFirst();
 		t.getLast();
 		t.getLast();
 		
 		for (Integer o: t){
-			System.out.print(o + "!");
+			System.out.print(o);
 		}
 		System.out.println();
 	}
