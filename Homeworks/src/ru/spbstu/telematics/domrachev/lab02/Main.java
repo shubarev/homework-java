@@ -15,7 +15,7 @@ public class Main {
 		t.addLast(8);
 		
 		for (Integer o: t){
-			System.out.print(o);
+			System.out.print(o + " ");
 			for (Integer k: t){
 				System.out.print("+" + k);
 			}
