@@ -15,11 +15,12 @@ public class MyLinkedList<T>
 		INode<T> next;
 		
 		INode(T item, INode<T> prev, INode<T> next) {
-            this.item = item;
-            this.next = next;
-            this.prev = prev;
-        }
+	            this.item = item;
+	            this.next = next;
+	            this.prev = prev;
+        	}
 	}
+	
 	private INode<T> head;
 	private INode<T> tail;
 	
