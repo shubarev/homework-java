@@ -8,7 +8,7 @@ public class Launcher {
 	public static void main(String[] args) {
 		final Random r = new Random();
 		new Thread(tm).start();
-		for (int i = 0; i < 20; i++){
+		for (int i = 0; i < 21; i++){
 			new Thread(new Runnable() { //customer
 				
 				Integer myTicket = 0;

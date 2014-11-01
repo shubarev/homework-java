@@ -6,15 +6,13 @@ import java.util.Random;
 
 public class TicketMachine implements Runnable{
 	
-	int MaxNumber = 20;
-	int NumberOfTicketsGiven = 0;
-	public int LastServed = 0;
-	public List<Integer> customers = new LinkedList<Integer>();
+	int MaxNumber = 5;
+	int NumberOfTicketsGiven;
+	public int LastServed;
+	public List<Integer> customers;
 
 	public TicketMachine() {
-		for (int i = 1; i <= 20; i++){
-			customers.add(i);
-		}
+		restartMachine();
 	}
 	
 	@Override
@@ -32,15 +30,23 @@ public class TicketMachine implements Runnable{
 					customers.get(LastServed).notify();
 				}
 			}
+			if (NumberOfTicketsGiven == MaxNumber && LastServed == NumberOfTicketsGiven){
+				restartMachine();
+			}
 		}
 	}
 	
 	private void restartMachine() {
-		for (int i = 1; i <= 20; i++){
+		System.out.println("---------Restarting machine----------");
+		customers = new LinkedList<Integer>();
+		for (int i = 1; i <= MaxNumber; i++){
 			customers.add(i);
 		}
-		NumberOfTicketsGiven = -1;
+		NumberOfTicketsGiven = 0;
 		LastServed = 0;
+		synchronized (this) {
+			notifyAll();
+		}
 	}
 	
 	public void whatInList(){
@@ -52,20 +58,20 @@ public class TicketMachine implements Runnable{
 	}
 	
 	public Integer getTicket() {
-		synchronized (customers.get(NumberOfTicketsGiven)) {			
-			while (customers.isEmpty()) {
+		synchronized (this) {			
+			while (NumberOfTicketsGiven == MaxNumber && LastServed < NumberOfTicketsGiven) {
 				try {
+					System.out.println(Thread.currentThread().getName()+": Waiting for machine to restart");
 					wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
-			Integer ret = customers.get(NumberOfTicketsGiven); 
-			NumberOfTicketsGiven += 1;
-			if (NumberOfTicketsGiven > 20){
-				restartMachine();
+			synchronized (customers.get(NumberOfTicketsGiven)) {
+				Integer ret = customers.get(NumberOfTicketsGiven); 
+				NumberOfTicketsGiven += 1;
+				return ret;
 			}
-			return ret;
 		}
 	}
 	
