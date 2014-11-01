@@ -3,7 +3,8 @@ package ru.spbstu.telematics.domrachev.lab03;
 import java.util.Random;
 
 public class Launcher {
-	static TicketMachine tm = new TicketMachine();
+	static MyGUI gui = MyGUI.Init();
+	static TicketMachine tm = new TicketMachine(gui);
 
 	public static void main(String[] args) {
 		final Random r = new Random();
@@ -15,6 +16,7 @@ public class Launcher {
 				
 				@Override
 				public void run() {
+						gui.threadCreated(Thread.currentThread().getName());
 						synchronized (this) {
 							try {
 								Thread.sleep(r.nextInt(4000));
@@ -22,7 +24,7 @@ public class Launcher {
 								e.printStackTrace();
 							}
 						}
-						myTicket = tm.getTicket();
+						myTicket = tm.getTicket();				
 						System.out.println("> "+Thread.currentThread().getName() + ": Got ticket " + myTicket);
 						synchronized (myTicket) {
 								try {

@@ -10,9 +10,11 @@ public class TicketMachine implements Runnable{
 	int NumberOfTicketsGiven;
 	public int LastServed;
 	public List<Integer> customers;
+	private MyGUI gui;
 
-	public TicketMachine() {
+	public TicketMachine(MyGUI _gui) {
 		restartMachine();
+		gui = _gui;
 	}
 	
 	@Override
@@ -27,6 +29,7 @@ public class TicketMachine implements Runnable{
 			if(LastServed < NumberOfTicketsGiven){
 				synchronized (customers.get(LastServed)) {
 					System.out.println("Ready to serve: " + (LastServed+1));
+					gui.displayNumber(LastServed+1+"");
 					customers.get(LastServed).notify();
 				}
 			}
@@ -34,6 +37,10 @@ public class TicketMachine implements Runnable{
 				restartMachine();
 			}
 		}
+	}
+	
+	public int currentNumber(){
+		return LastServed;
 	}
 	
 	private void restartMachine() {
@@ -62,6 +69,7 @@ public class TicketMachine implements Runnable{
 			while (NumberOfTicketsGiven == MaxNumber && LastServed < NumberOfTicketsGiven) {
 				try {
 					System.out.println(Thread.currentThread().getName()+": Waiting for machine to restart");
+					gui.threadWaiting(Thread.currentThread().getName());
 					wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -70,6 +78,7 @@ public class TicketMachine implements Runnable{
 			synchronized (customers.get(NumberOfTicketsGiven)) {
 				Integer ret = customers.get(NumberOfTicketsGiven); 
 				NumberOfTicketsGiven += 1;
+				gui.threadGotTicket(Thread.currentThread().getName());
 				return ret;
 			}
 		}
@@ -80,6 +89,7 @@ public class TicketMachine implements Runnable{
 			Integer el = customers.get(LastServed);
 			el.notify();
 			LastServed++;
+			gui.threadServed(Thread.currentThread().getName());
 			return el;
 		}
 	}
