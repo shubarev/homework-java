@@ -6,9 +6,11 @@ import java.util.Random;
 
 public class TicketMachine implements Runnable{
 	
+	//number of tickets in machine and max size of queue
 	int MaxNumber = 5;
 	int NumberOfTicketsGiven;
 	public int LastServed;
+	//list of sequence numbers of customers that works as locks
 	public List<Integer> customers;
 	private MyGUI gui;
 
@@ -19,13 +21,16 @@ public class TicketMachine implements Runnable{
 	
 	@Override
 	public void run() {
+		//random service time
 		final Random r = new Random();
 		while(!Thread.interrupted()){
+			//imitation of previous customer service delay
 			try {
 				Thread.sleep(r.nextInt(3000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			//don't even try to serve customer with a ticket number which wasn't taken 
 			if(LastServed < NumberOfTicketsGiven){
 				synchronized (customers.get(LastServed)) {
 					System.out.println("Ready to serve: " + (LastServed+1));
